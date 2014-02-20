@@ -1,0 +1,46 @@
+<Schema name="Serpro">
+  <Cube name="Licitacoes" visible="true" cache="true" enabled="true">
+    <Table name="fato_serpro" schema="serpro">
+    </Table>
+    <Dimension type="StandardDimension" visible="true" foreignKey="sk_regiao" highCardinality="false" name="Regiao" caption="Regiao">
+      <Hierarchy name="Regiao" visible="true" hasAll="true" allMemberName="Todos" primaryKey="sk_regiao" caption="Regiao">
+        <Table name="dim_regiao" schema="serpro">
+        </Table>
+        <Level name="Regiao" visible="true" column="unidadeemitente" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" caption="Regiao">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="sk_registro_data_publicacao" highCardinality="false" name="Data Registro" caption="Data Registro">
+      <Hierarchy name="Data Registro" visible="true" hasAll="true" allMemberName="Todos" primaryKey="id_tempo" caption="Data Registro">
+        <Table name="dim_tempo" schema="serpro" alias="dim_tempo_data_registro">
+        </Table>
+        <Level name="Ano Registro" visible="true" column="ano4" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" caption="Ano Registro">
+        </Level>
+        <Level name="Trimestre Registro" visible="true" column="nome_trimestre" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" caption="Trimestre Registro">
+        </Level>
+        <Level name="M&#234;s Registro" visible="true" column="nome_mes" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" caption="M&#234;s Registro">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="sk_fornecedor" name="Fornecedor" caption="Fornecedor">
+      <Hierarchy name="Fornecedor" visible="true" hasAll="true" allMemberName="Todos" primaryKey="sk_fornecedor" caption="Fornecedor">
+        <Table name="dim_fornecedor" schema="serpro" alias="">
+        </Table>
+        <Level name="Fornecedor" visible="true" column="fornecedor" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" caption="Fornecedor">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Dimension type="StandardDimension" visible="true" foreignKey="sk_tipo_contratacao" name="Tipo Contratacao" caption="Tipo Contratacao">
+      <Hierarchy name="Tipo Contratacao" visible="true" hasAll="true" allMemberName="Todos" primaryKey="sk_tipo_contratacao" caption="Tipo Contratacao">
+        <Table name="dim_tipo_contratacao" schema="serpro" alias="">
+        </Table>
+        <Level name="Tipo Contratacao" visible="true" column="tipocontratacao" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never" caption="Tipo Contratacao">
+        </Level>
+      </Hierarchy>
+    </Dimension>
+    <Measure name="Valor Contratado" column="valorcontratado" datatype="String" formatString="R$ #,###,###,###.00" aggregator="sum" visible="true">
+    </Measure>
+    <Measure name="Quantidade" column="sk_tipo_contratacao" datatype="Integer" aggregator="count" visible="true">
+    </Measure>
+  </Cube>
+</Schema>

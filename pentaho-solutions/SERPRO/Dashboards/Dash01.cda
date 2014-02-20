@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDADescriptor>
+   <DataSources>
+      <Connection id="graficoAnoQuery" type="mondrian.jndi">
+         <Catalog>/SERPRO/Analises/Schema1.xml</Catalog>
+         <Jndi>serpro</Jndi>
+      </Connection>
+      <Connection id="graficoFornecedorQuery" type="mondrian.jndi">
+         <Catalog>/SERPRO/Analises/Schema1.xml</Catalog>
+         <Jndi>serpro</Jndi>
+      </Connection>
+      <Connection id="graficoTipoQuery" type="mondrian.jndi">
+         <Catalog>/SERPRO/Analises/Schema1.xml</Catalog>
+         <Jndi>serpro</Jndi>
+      </Connection>
+      <Connection id="tabelaRegiao" type="mondrian.jndi">
+         <Catalog>/SERPRO/Analises/Schema1.xml</Catalog>
+         <Jndi>serpro</Jndi>
+      </Connection>
+   </DataSources>
+   <DataAccess access="public" cache="true" cacheDuration="3600" connection="graficoAnoQuery"
+               id="graficoAnoQuery"
+               type="mdx">
+      <BandedMode>compact</BandedMode>
+      <Columns/>
+      <Parameters/>
+      <Query>select NON EMPTY({Descendants([Data Registro].[Todos] ,[Data Registro].[Ano Registro])}) on ROWS, 
+ NON EMPTY({[Measures].[Valor Contratado]}) on Columns 
+ from [Licitacoes]</Query>
+   </DataAccess>
+   <DataAccess access="public" cache="true" cacheDuration="3600"
+               connection="graficoFornecedorQuery"
+               id="graficoFornecedorQuery"
+               type="mdx">
+      <BandedMode>compact</BandedMode>
+      <Columns/>
+      <Parameters/>
+      <Query>select NON EMPTY(TopCount({Descendants([Fornecedor].[Todos] ,[Fornecedor].[Fornecedor])}, 5, [Measures].[Quantidade])) on ROWS, 
+ NON EMPTY({[Measures].[Quantidade]}) on Columns 
+ from [Licitacoes]</Query>
+   </DataAccess>
+   <DataAccess access="public" cache="true" cacheDuration="3600" connection="graficoTipoQuery"
+               id="graficoTipoQuery"
+               type="mdx">
+      <BandedMode>compact</BandedMode>
+      <Columns/>
+      <Parameters/>
+      <Query>select NON EMPTY(TopCount({Descendants([Tipo Contratacao].[Todos] ,[Tipo Contratacao].[Tipo Contratacao])}, 5, [Measures].[Valor Contratado])) on ROWS, 
+ NON EMPTY({[Measures].[Valor Contratado]}) on Columns 
+ from [Licitacoes]</Query>
+   </DataAccess>
+   <DataAccess access="public" cache="true" cacheDuration="3600" connection="tabelaRegiao"
+               id="tabelaRegiao"
+               type="mdx">
+      <BandedMode>compact</BandedMode>
+      <Columns/>
+      <Parameters/>
+      <Query>SELECT&#xD;
+NON EMPTY {Hierarchize({[Measures].[Quantidade]})} ON COLUMNS,&#xD;
+NON EMPTY Order({Hierarchize({[Regiao].[Regiao].Members})}, [Measures].[Quantidade], BDESC) ON ROWS&#xD;
+FROM [Licitacoes]</Query>
+   </DataAccess>
+</CDADescriptor>
